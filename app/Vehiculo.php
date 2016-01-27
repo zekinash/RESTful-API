@@ -8,7 +8,7 @@ class Vehiculo extends Model {
 
 	protected $primaryKey = 'serie';
 
-	protected $fillable = array('color', 'cilindrada', 'potencia', 'peso');
+	protected $fillable = array('color', 'cilindrada', 'potencia', 'peso', 'fabricante_id');
 
 
 	/*

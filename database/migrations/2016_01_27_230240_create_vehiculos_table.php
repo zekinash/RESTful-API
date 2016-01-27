@@ -14,8 +14,21 @@ class CreateVehiculosTable extends Migration {
 	{
 		Schema::create('vehiculos', function(Blueprint $table)
 		{
-			$table->increments('id');
+			// Claves principal y foránea
+			$table->increments('serie');
+			$table->integer('fabricante_id')->unsigned();
+
+			// Campos de la tabla
+			$table->string('color');
+			$table->float('cilindrada');
+			$table->integer('potencia');
+			$table->float('peso');
+			
+			// Timestamps de Laravel
 			$table->timestamps();
+
+			// Relación con la tabla Fabricantes
+			$table->foreign('fabricante_id')->references('id')->on('fabricantes');
 		});
 	}
 
