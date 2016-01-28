@@ -48,19 +48,19 @@ class FabricanteVehiculoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $id)
 	{
-		$fabricante = Fabricante::find($request->input('fabricante_id'));
+		$fabricante = Fabricante::find($id);
 
 		if(!$fabricante){
-			return response()->json(['data' => 'El fabricante con id ' . $request->input('fabricante_id'). ' no existe. No se puede dar de alta el vehículo.'], 404);
+			return response()->json(['data' => 'El fabricante con id ' . $id. ' no existe. No se puede dar de alta el vehículo.'], 404);
 		}
 
 		if( !$request->input('color') or !$request->input('cilindrada') or !$request->input('potencia') or !$request->input('peso') ) {
 			return response()->json(['data' => 'No se pudo crear el vehículo. Faltan datos.'], 422);
 		}
 		
-		Vehiculo::create($request->all());
+		$fabricante->vehiculos()->create($request->all());
 
 		return response()->json(['data' => 'El vehículo se ha creado correctamente'], 200);
 	}
