@@ -44,7 +44,7 @@ class FabricanteController extends Controller {
 	{
 
 		if(!$request->input('nombre') or !$request->input('telefono')) {
-			return response()->json(['data' => 'No se pudo crear el fabricante'], '422');
+			return response()->json(['data' => 'No se pudo crear el fabricante'], 422);
 		}
 		
 		Fabricante::create($request->all());
@@ -63,7 +63,7 @@ class FabricanteController extends Controller {
 		$fabricante = Fabricante::find($id);
 
 		if(!$fabricante){
-			return response()->json(['data' => 'No se encuentra el fabricante con id ' . $id], '404');
+			return response()->json(['data' => 'No se encuentra el fabricante con id ' . $id], 404);
 		}
 		
 		return response()->json(['data' => $fabricante], 200);
@@ -82,13 +82,61 @@ class FabricanteController extends Controller {
 
 	/**
 	 * Update the specified resource in storage.
+	 * Se utiliza en postman x-www-form-urlencoded
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
-		return 'Mostrando formulario para actualizar el fabricante con id: ' . $id;
+
+		$fabricante = Fabricante::find($id);
+
+		if(!$fabricante){
+			return response()->json(['data' => 'No se encuentra el fabricante con id ' . $id], 404);
+		}
+
+		$metodo = $request->method();
+
+		$nombre = $request->input('nombre');
+		$telefono = $request->input('telefono');
+
+		$flag = false;
+
+		if( $metodo == 'PATCH' ){
+
+			if($nombre != null and $nombre != ''){
+				$fabricante->nombre = $nombre;
+				$flag = true;
+			}
+
+			if($telefono != null and $telefono != ''){
+				$fabricante->telefono = $telefono;
+				$flag = true;
+			}
+
+			if( $flag ){
+
+				$fabricante->save();
+
+				return response()->json(['data' => 'Se ha actualizado el fabricante.'], 200);
+
+			}
+
+			return response()->json(['data' => 'No se modificó ningún fabricante.'], 304);
+
+		}
+
+		if( !$nombre or !$telefono ){
+			return response()->json(['data' => 'Faltan campos para actualizar'], 422);
+		}
+
+		$fabricante->nombre = $nombre;
+		$fabricante->telefono = $telefono;
+
+		$fabricante->save();
+
+		return response()->json(['data' => 'Se ha actualizado el fabricante.'], 200);
 	}
 
 	/**

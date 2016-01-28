@@ -93,9 +93,73 @@ class FabricanteVehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($idFabricante, $idVehiculo)
+	public function update(Request $request, $idFabricante, $idVehiculo)
 	{
-		return 'Actualizamos el vehículo con id ' . $idVehiculo . ' del fabricante con id ' . $idFabricante;
+		$fabricante = Fabricante::find($idFabricante);
+
+		if(!$fabricante){
+			return response()->json(['data' => 'No se encuentra el fabricante con id ' . $idFabricante], 404);
+		}
+
+		$vehiculo = $fabricante->vehiculos()->find($idVehiculo);
+
+		if(!$vehiculo){
+			return response()->json(['data' => 'No se encuentra el vehiculo con id ' . $idVehiculo . ' para el fabricante con id ' . $idFabricante], 404);
+		}
+
+		$metodo = $request->method();
+
+		$color = $request->input('color');
+		$cilindrada = $request->input('cilindrada');
+		$potencia = $request->input('potencia');
+		$peso = $request->input('peso');
+
+		$flag = false;
+
+		if( $metodo == 'PATCH' ){
+
+			if($color != null and $color != ''){
+				$vehiculo->color = $color;
+				$flag = true;
+			}
+
+			if($cilindrada != null and $cilindrada != ''){
+				$vehiculo->cilindrada = $cilindrada;
+				$flag = true;
+			}
+
+			if($potencia != null and $potencia != ''){
+				$vehiculo->potencia = $potencia;
+				$flag = true;
+			}
+
+			if($peso != null and $peso != ''){
+				$vehiculo->peso = $peso;
+				$flag = true;
+			}
+
+			if( $flag ) {
+				$vehiculo->save();
+				return response()->json(['data' => 'Se ha actualizado el vehículo.'], 200);
+			}
+
+			
+			return response()->json(['data' => 'No se modificó ningún vehículo.'], 304);
+
+		}
+
+		if( !$color or !$cilindrada or !$potencia or !$peso ){
+			return response()->json(['data' => 'Faltan campos para actualizar'], 422);
+		}
+
+		$vehiculo->color = $color;
+		$vehiculo->cilindrada = $cilindrada;
+		$vehiculo->potencia = $potencia;
+		$vehiculo->peso = $peso;
+
+		$vehiculo->save();
+
+		return response()->json(['data' => 'Se ha actualizado el vehículo.'], 200);
 	}
 
 	/**
