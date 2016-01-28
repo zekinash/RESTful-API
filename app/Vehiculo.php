@@ -10,6 +10,8 @@ class Vehiculo extends Model {
 
 	protected $fillable = array('color', 'cilindrada', 'potencia', 'peso', 'fabricante_id');
 
+	protected $hidden = array('updated_at', 'created_at');
+
 
 	/*
 		Relación de Vehículo con fabricante.
@@ -17,7 +19,7 @@ class Vehiculo extends Model {
 	*/
 	public function fabricante(){
 
-		$this->belongsTo('Fabricante');
+		return $this->belongsTo('App\Fabricante');
 
 	}
 
