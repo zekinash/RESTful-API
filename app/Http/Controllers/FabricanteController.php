@@ -11,7 +11,7 @@ class FabricanteController extends Controller {
 
 	public function __construct(){
 
-		$this->middleware('auth.basic', ['only' => ['store', 'update', 'destroy']]);
+		$this->middleware('auth.basic.once', ['only' => ['store', 'update', 'destroy']]);
 		
 	}
 
@@ -23,16 +23,6 @@ class FabricanteController extends Controller {
 	public function index()
 	{
 		return response()->json(['data' => Fabricante::all()], 200);
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		return 'Mostrando formulario para crear un fabricante';
 	}
 
 	/**
@@ -67,17 +57,6 @@ class FabricanteController extends Controller {
 		}
 		
 		return response()->json(['data' => $fabricante], 200);
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		return 'Mostrando formulario para editar el fabricante con id: ' . $id;
 	}
 
 	/**
