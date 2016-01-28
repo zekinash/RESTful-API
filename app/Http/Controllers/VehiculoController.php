@@ -12,9 +12,9 @@ class VehiculoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($id)
 	{
-		//
+		return 'Mostrando los vehículos del fabricante con id ' . $id;
 	}
 
 	/**
@@ -22,9 +22,9 @@ class VehiculoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($id)
 	{
-		//
+		return 'Mostrando formulario para crear un vehículo del fabricante con id ' . $id;
 	}
 
 	/**
@@ -32,9 +32,9 @@ class VehiculoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($id)
 	{
-		//
+		return 'Guardamos el vehículo recien creado para el fabricante ' . $id;
 	}
 
 	/**
@@ -43,9 +43,9 @@ class VehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($idFabricante, $idVehiculo)
 	{
-		//
+		return 'Mostramos el vehículo con id ' . $idVehiculo . ' del fabricante con id ' . $idFabricante;
 	}
 
 	/**
@@ -54,9 +54,9 @@ class VehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($idFabricante, $idVehiculo)
 	{
-		//
+		return 'Mostramos el formulario para editar vehículo con id ' . $idVehiculo . ' del fabricante con id ' . $idFabricante;
 	}
 
 	/**
@@ -65,9 +65,9 @@ class VehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($idFabricante, $idVehiculo)
 	{
-		//
+		return 'Actualizamos el vehículo con id ' . $idVehiculo . ' del fabricante con id ' . $idFabricante;
 	}
 
 	/**
@@ -76,9 +76,9 @@ class VehiculoController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($idFabricante, $idVehiculo)
 	{
-		//
+		return 'Eliminamos el vehículo con id ' . $idVehiculo . ' del fabricante con id ' . $idFabricante;
 	}
 
 }
