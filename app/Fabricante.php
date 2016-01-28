@@ -8,6 +8,8 @@ class Fabricante extends Model {
 	
 	protected $fillable = array('nombre', 'telefono');
 
+	protected $hidden = array('created_at', 'updated_at');
+
 
 	/*
 		Relación de Fabricante con Vehículo
