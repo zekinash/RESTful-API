@@ -9,6 +9,12 @@ use App\Fabricante;
 
 class FabricanteController extends Controller {
 
+	public function __construct(){
+
+		$this->middleware('auth.basic', ['only' => ['store', 'update', 'destroy']]);
+		
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -34,9 +40,16 @@ class FabricanteController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		return 'Creando un fabricante';
+
+		if(!$request->input('nombre') or !$request->input('telefono')) {
+			return response()->json(['data' => 'No se pudo crear el fabricante'], '422');
+		}
+		
+		Fabricante::create($request->all());
+
+		return response()->json(['data' => 'El fabricante se ha creado correctamente'], 200);
 	}
 
 	/**
@@ -51,10 +64,9 @@ class FabricanteController extends Controller {
 
 		if(!$fabricante){
 			return response()->json(['data' => 'No se encuentra el fabricante con id ' . $id], '404');
-		} else {
-			return response()->json(['data' => $fabricante], 200);
 		}
 		
+		return response()->json(['data' => $fabricante], 200);
 	}
 
 	/**

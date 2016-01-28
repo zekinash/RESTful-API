@@ -10,6 +10,12 @@ use App\Vehiculo;
 
 class FabricanteVehiculoController extends Controller {
 
+	public function __construct(){
+
+		$this->middleware('auth.basic', ['only' => ['store', 'update', 'destroy']]);
+		
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -42,9 +48,21 @@ class FabricanteVehiculoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store($id)
+	public function store(Request $request)
 	{
-		return 'Guardamos el vehículo recien creado para el fabricante ' . $id;
+		$fabricante = Fabricante::find($request->input('fabricante_id'));
+
+		if(!$fabricante){
+			return response()->json(['data' => 'El fabricante con id ' . $request->input('fabricante_id'). ' no existe. No se puede dar de alta el vehículo.'], 404);
+		}
+
+		if( !$request->input('color') or !$request->input('cilindrada') or !$request->input('potencia') or !$request->input('peso') ) {
+			return response()->json(['data' => 'No se pudo crear el vehículo. Faltan datos.'], 422);
+		}
+		
+		Vehiculo::create($request->all());
+
+		return response()->json(['data' => 'El vehículo se ha creado correctamente'], 200);
 	}
 
 	/**
